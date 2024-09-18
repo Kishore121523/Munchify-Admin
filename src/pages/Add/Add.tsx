@@ -3,6 +3,12 @@ import { assets } from "../../assets/assets"
 
 const Add = () => {
   const [image, setImage] = useState<File | null>(null)
+  const [data, setData] = useState({
+    name:"",
+    description:"",
+    price:"",
+    category:"Salad",
+  })
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -10,28 +16,66 @@ const Add = () => {
     }
   };
 
+  const onChangeFieldHandler = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const name = e?.target.name;
+    const value = e?.target.value;
+    setData(data => ({...data, [name]:value}))
+
+  };
+
   return (
     <div className="w-[70%] ml-[max(5vw,_25px)] mt-[50px] font-[#6d6d6d] font-[16px]">
-      <form className="flex flex-col gap-[20px] ">
+      <form className="flex flex-col gap-[20px]">
           <div className="flex flex-col">
             <p>Upload Image</p>
             <label htmlFor="image">
-              <img src={image?URL.createObjectURL(image):assets.upload_area} className="w-[120px] md:w-[200px] cursor-pointer" alt="" />
+              <img 
+                src={image?URL.createObjectURL(image):assets.upload_area} 
+                className="w-[120px] md:w-[200px] cursor-pointer" 
+                alt="" />
             </label>
-            <input onChange={handleImageChange} type="file" id="image" hidden required />
+            <input 
+              onChange={handleImageChange} 
+              type="file" 
+              id="image" 
+              hidden 
+              required />
           </div>
+
           <div className="flex flex-col gap-[10px] w-[max(40%,_280px)]">
             <p>Product Name</p>
-            <input className="p-[10px]" type="text" name="name" id="name" placeholder="Enter product name" />
+            <input 
+              onChange={onChangeFieldHandler} 
+              name="name" 
+              value={data.name} 
+              className="p-[10px]" 
+              type="text" 
+              id="name" 
+              placeholder="Enter product name" />
           </div>
+
           <div className="flex flex-col gap-[10px] w-[max(40%,_280px)]">
             <p>Product Description</p>
-            <textarea className="p-[10px]" name="description" id="description" rows={6} placeholder="Enter product description" required></textarea>
+            <textarea 
+              onChange={onChangeFieldHandler} 
+              name="description" 
+              value={data.description} 
+              className="p-[10px]" 
+              id="description" 
+              rows={6} 
+              placeholder="Enter product description" 
+              required> 
+            </textarea>
           </div>
+
           <div className="flex gap-[30px]">
             <div className="flex flex-col gap-[10px]">
               <p>Product Category</p>
-              <select className="max-w-[120px] p-[10px]" name="category" id="category">
+              <select 
+                onChange={onChangeFieldHandler} 
+                className="max-w-[120px] p-[10px]" 
+                name="category" 
+                id="category">
                 <option value="Salad">Salad</option>
                 <option value="Rolls">Rolls</option>
                 <option value="Deserts">Deserts</option>
@@ -44,10 +88,21 @@ const Add = () => {
             </div>
             <div className="flex flex-col gap-[10px]">
               <p>Product Price</p>
-              <input className="max-w-[120px] p-[10px]" type="number" name="price" id="price" placeholder="$20" />
+              <input 
+                onChange={onChangeFieldHandler} 
+                name="price" 
+                value={data.price} 
+                className="max-w-[120px] p-[10px]" 
+                type="number" 
+                id="price" 
+                placeholder="20" />
             </div>
           </div>
-          <button type="submit" className="max-w-[120px] border-none p-[10px] bg-black text-white cursor-pointer">Add</button>
+          <button 
+            type="submit" 
+            className="max-w-[120px] border-none p-[10px] bg-black text-white cursor-pointer">
+              Add
+          </button>
       </form>
     </div>
   )
