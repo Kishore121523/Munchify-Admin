@@ -33,3 +33,14 @@ hr {
 .no-scroll {
   overflow: hidden;
 }
+
+.active {
+  background-color: #fff0ed;
+  border-color: tomato;
+}
+
+input,
+textarea,
+select {
+  border: 1px solid rgb(58, 58, 58);
+}
