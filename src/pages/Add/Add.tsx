@@ -2,9 +2,11 @@ import { useState } from "react"
 import { assets } from "../../assets/assets"
 import axios from "axios"
 import { toast } from 'react-toastify';
+interface AddProps{
+  url:string
+}
 
-const Add = () => {
-  const url = 'http://localhost:4000';
+const Add = ({url}:AddProps) => {
   const [image, setImage] = useState<File | null>(null)
   const [data, setData] = useState({
     name:"",
