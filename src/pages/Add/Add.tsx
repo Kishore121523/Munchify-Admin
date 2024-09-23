@@ -1,7 +1,10 @@
 import { useState } from "react"
 import { assets } from "../../assets/assets"
+import axios from "axios"
+import { toast } from 'react-toastify';
 
 const Add = () => {
+  const url = 'http://localhost:4000';
   const [image, setImage] = useState<File | null>(null)
   const [data, setData] = useState({
     name:"",
@@ -23,21 +26,50 @@ const Add = () => {
 
   };
 
+  const onSubmiteHandler = async (event: React.FormEvent) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append("name", data.name)
+    formData.append("description", data.description)
+    formData.append("price", data.price)
+    formData.append("category", data.category)
+    if (image) {
+    formData.append("image", image);
+    }
+
+    const response = await axios.post(`${url}/api/food/add`, formData)
+
+    if (response.data.success){
+      setData({
+          name:"",
+          description:"",
+          price:"",
+          category:"Salad",
+      })
+      setImage(null)
+      toast.success(response.data.message)
+    }else{
+      toast.error(response.data.message)
+    }
+  }
+
   return (
     <div className="w-[70%] ml-[max(5vw,_25px)] mt-[50px] font-[#6d6d6d] font-[16px]">
-      <form className="flex flex-col gap-[20px]">
+      <form className="flex flex-col gap-[20px]" onSubmit={onSubmiteHandler}>
           <div className="flex flex-col">
             <p>Upload Image</p>
             <label htmlFor="image">
               <img 
                 src={image?URL.createObjectURL(image):assets.upload_area} 
-                className="w-[120px] md:w-[200px] cursor-pointer" 
+                className="w-[120px] md:w-[200px] cursor-pointer rounded-[10px]" 
                 alt="" />
             </label>
             <input 
               onChange={handleImageChange} 
+              className="rounded-[10px]"
               type="file" 
-              id="image" 
+              id="image"
+              name="image" 
               hidden 
               required />
           </div>
