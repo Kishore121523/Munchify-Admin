@@ -58,7 +58,7 @@ const Add = ({url}:AddProps) => {
   return (
     <div className="w-[70%] ml-[max(5vw,_25px)] mt-[50px] font-[#6d6d6d] font-[16px]">
       <form className="flex flex-col gap-[20px]" onSubmit={onSubmiteHandler}>
-          <div className="flex flex-col">
+          <div className="flex flex-col w-[120px] md:w-[200px]">
             <p>Upload Image</p>
             <label htmlFor="image">
               <img 
